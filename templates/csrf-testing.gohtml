@@ -1,0 +1,12 @@
+<div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-4">CSRF Testing Form</h1>
+    <form hx-post="/csrf-testing" hx-target="#result" class="mb-4">
+        <div class="flex mb-4">
+            <input type="text" name="data" id="data" class="w-full rounded-l px-4 py-2 outline-none" placeholder="Enter some data">
+            <button type="submit" class="bg-blue-500 rounded-r text-white px-4 py-2">Submit</button>
+        </div>
+    </form>
+    <div id="result" class="text-lg">
+        <!-- Submitted data will be displayed here -->
+    </div>
+</div>

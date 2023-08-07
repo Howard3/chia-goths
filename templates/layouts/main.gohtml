@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/main.css" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+    <title>Chia Goths Example</title>
+</head>
+<body hx-include="[name='gorilla.csrf.Token']">
+{{partial "layouts/csrf"}}
+{{ partial "layouts/header" }}
+
+<div id="content" hx-boost="true" hx-target="#content" hx-swap="innerHTML">
+    {{ yield }}
+</div>
+
+{{ partial "layouts/footer"}}
+
+</body>
+</html>

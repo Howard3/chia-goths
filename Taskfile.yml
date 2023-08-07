@@ -1,0 +1,17 @@
+  version: 3
+  tasks:
+    dev:
+      deps:
+        - watch
+        - dev:server
+    dev:server:
+      env:
+        DEV_MODE: true
+      cmds:
+        - go run .
+    watch:
+      cmds:
+        - npx tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --watch
+    build:
+      cmds:
+        - npx tailwindcss -i ./src/css/main.css -o ./assets/css/main.css
