@@ -1,12 +1,28 @@
 <div class="container mx-auto py-8">
     <h1 class="text-3xl font-bold mb-4">CSRF Testing Form</h1>
-    <form hx-post="/csrf-testing" hx-target="#result" class="mb-4">
-        <div class="flex mb-4">
-            <input type="text" name="data" id="data" class="w-full rounded-l px-4 py-2 outline-none" placeholder="Enter some data">
-            <button type="submit" class="bg-blue-500 rounded-r text-white px-4 py-2">Submit</button>
-        </div>
-    </form>
-    <div id="result" class="text-lg">
-        <!-- Submitted data will be displayed here -->
+    <div class="text-lg mb-4">
+        <p><strong>CSRF Protection:</strong></p>
+        <ul class="list-disc list-inside pl-4">
+            <li>
+                Cross-Site Request Forgery (CSRF) is an attack that tricks the user's browser into executing unwanted actions on another website where the user is authenticated. To protect against CSRF attacks, ChiA GoTHS uses the Gorilla CSRF middleware.
+            </li>
+            <li>
+                The Gorilla CSRF middleware generates a CSRF token for each user session. This token is stored as a hidden input field in the form, and the same token is also embedded in the page using HTMX. The token is automatically updated with each request to ensure security.
+            </li>
+            <li>
+                When you submit the form, HTMX includes the CSRF token in the request using the <code>hx-include="[name='gorilla.csrf.Token']"</code> directive on the body tag of the layout. This way, the server can verify the authenticity of the request and protect against potential CSRF attacks.
+            </li>
+        </ul>
     </div>
+    <div class="p-4 border rounded-lg bg-gray-100 mb-4">
+        <form hx-post="/csrf-testing" hx-target="#result" class="mb-4">
+            <div class="flex mb-4">
+                <input type="text" name="data" id="data" class="w-full rounded-l px-4 py-2 outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Enter some data">
+                <button type="submit" class="bg-blue-500 rounded-r text-white px-4 py-2">Submit</button>
+            </div>
+        </form>
+    </div>
+    <pre id="result" class="text-lg">
+        <!-- Submitted data will be displayed here -->
+    </pre>
 </div>
