@@ -14,6 +14,8 @@ This project serves as a foundation for your web development endeavors, allowing
 - HTMX and Alpine.js for smooth and efficient client-server interactions.
 - Tailwind CSS for a utility-first, responsive UI design.
 - SQLite for an easy-to-use and embedded database.
+- Automatic CSRF protection using Gorilla CSRF
+- Zero Allocation Logger with Zerolog
 
 ## Prerequisites
 
