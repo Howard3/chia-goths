@@ -14,7 +14,8 @@ var EnvVars = struct {
 
 func LoadEnv() {
 	if err := godotenv.Load(); err != nil {
-		return
+		// this is only INFO because env can also be set... as env.
+		log.Info().Err(err).Msg("failed to load env vars from .env file")
 	}
 
 	EnvVars.DevMode = os.Getenv("DEV_MODE") == "true"

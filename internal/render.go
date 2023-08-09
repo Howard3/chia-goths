@@ -9,17 +9,21 @@ import (
 	"net/http"
 )
 
-var renderer *render.Render
+type Renderer struct {
+	instance   *render.Render
+	FileSystem render.FileSystem
+}
 
-func getRenderer() *render.Render {
-	if renderer == nil {
-		renderer = render.New(render.Options{
+func (renderer *Renderer) getInstance() *render.Render {
+	if renderer.instance == nil {
+		renderer.instance = render.New(render.Options{
 			Directory:                   "templates",
 			Layout:                      "layouts/main",
 			Extensions:                  []string{".gohtml"},
 			IsDevelopment:               EnvVars.DevMode,
 			RequirePartials:             true,
 			RenderPartialsWithoutPrefix: true,
+			FileSystem:                  renderer.FileSystem,
 			Funcs: []template.FuncMap{
 				{
 					"csrfToken": func() template.HTML {
@@ -32,10 +36,10 @@ func getRenderer() *render.Render {
 		})
 	}
 
-	return renderer
+	return renderer.instance
 }
 
-func RenderHTML(r *http.Request, w http.ResponseWriter, templateName string, data interface{}) error {
+func (renderer *Renderer) RenderHTML(r *http.Request, w http.ResponseWriter, templateName string, data interface{}) error {
 	htmlOpts := []render.HTMLOptions{
 		{
 			Funcs: map[string]any{
@@ -52,5 +56,5 @@ func RenderHTML(r *http.Request, w http.ResponseWriter, templateName string, dat
 
 	htmlOpts = append(htmlOpts)
 
-	return getRenderer().HTML(w, http.StatusOK, templateName, data, htmlOpts...)
+	return renderer.getInstance().HTML(w, http.StatusOK, templateName, data, htmlOpts...)
 }

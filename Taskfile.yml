@@ -15,3 +15,7 @@
     build:
       cmds:
         - npx tailwindcss -i ./src/css/main.css -o ./assets/css/main.css
+        - go build -o ./bin/chia-goths
+    deploy:flyio:
+      cmds:
+        - flyctl deploy

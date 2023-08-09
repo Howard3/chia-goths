@@ -24,6 +24,7 @@ To run this project, you'll need the following installed on your system:
 - Tailwind CSS (https://tailwindcss.com/docs/installation)
 - SQLite (https://www.sqlite.org/download.html)
 - Taskfile (https://taskfile.dev/installation/) optional but recommended.
+- Flyctl (https://fly.io/docs/hands-on/install-flyctl/) if you want to deploy to [fly.io](https://fly.io/)
 
 ## Getting Started
 

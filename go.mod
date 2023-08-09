@@ -1,4 +1,4 @@
-module news-dashboard
+module chia-goths
 
 go 1.20
 
