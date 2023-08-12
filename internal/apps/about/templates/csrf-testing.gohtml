@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div class="p-4 border rounded-lg bg-gray-100 mb-4">
-        <form hx-post="/csrf-testing" hx-target="#result" class="mb-4" hx-include="[name='gorilla.csrf.Token']">
+        <form hx-post="{{ const "AppPath" }}/csrf-testing" hx-target="#result" class="mb-4" hx-include="[name='gorilla.csrf.Token']">
             <div class="flex mb-4">
                 <input type="text" name="data" id="data" class="w-full rounded-l px-4 py-2 outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Enter some data">
                 <button type="submit" class="bg-blue-500 rounded-r text-white px-4 py-2">Submit</button>

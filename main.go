@@ -2,13 +2,13 @@ package main
 
 import (
 	"chia-goths/internal"
-	"embed"
+	"chia-goths/internal/apps"
+	"chia-goths/internal/apps/about"
+	"chia-goths/internal/apps/devdit"
 	"fmt"
 	"github.com/gorilla/csrf"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/unrolled/render"
-	"io/fs"
 	"net/http"
 	"os"
 
@@ -17,25 +17,6 @@ import (
 
 	_ "embed"
 )
-
-//go:embed assets/*
-var embeddedAssetsFS embed.FS
-
-//go:embed templates/*
-var templatesFS embed.FS
-
-func assetFS() fs.FS {
-	if internal.EnvVars.DevMode {
-		return os.DirFS("assets")
-	}
-
-	sub, err := fs.Sub(embeddedAssetsFS, "assets")
-	if err != nil {
-		panic(fmt.Errorf("failed to get sub FS: %w", err))
-	}
-
-	return sub
-}
 
 func main() {
 	internal.LoadEnv()
@@ -47,29 +28,11 @@ func main() {
 	c.Use(middleware.Recoverer)
 	c.Use(middleware.Compress(5))
 
-	renderer := internal.Renderer{}
-	if !internal.EnvVars.DevMode {
-		renderer.FileSystem = &render.EmbedFileSystem{FS: templatesFS}
-	}
+	main := apps.NewAppConfig(c, "/apps/about")
+	main.InitApp(&about.App{})
 
-	// todo: this assets delivery works but has indexes, best to not list dir contents
-	c.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(assetFS()))))
-
-	c.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		renderer.RenderHTML(r, w, "index", nil)
-	})
-	c.Get("/status", func(w http.ResponseWriter, r *http.Request) {
-		renderer.RenderHTML(r, w, "status", nil)
-	})
-	c.Get("/technologies", func(w http.ResponseWriter, r *http.Request) {
-		renderer.RenderHTML(r, w, "technologies", nil)
-	})
-	c.Get("/csrf-testing", func(w http.ResponseWriter, r *http.Request) {
-		renderer.RenderHTML(r, w, "csrf-testing", nil)
-	})
-	c.Post("/csrf-testing", func(w http.ResponseWriter, r *http.Request) {
-		renderer.RenderHTML(r, w, "csrf-testing-post", r.PostForm)
-	})
+	devditConfig := apps.NewAppConfig(c, "/apps/devdit")
+	devditConfig.InitApp(&devdit.App{})
 
 	log.Info().Str("listenAddr", internal.EnvVars.ListenAddr).Msg("starting server")
 	if err := http.ListenAndServe(internal.EnvVars.ListenAddr, csrf.Protect(internal.EnvVars.CSRFKey)(c)); err != nil {

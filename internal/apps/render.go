@@ -1,6 +1,7 @@
-package internal
+package apps
 
 import (
+	"chia-goths/internal"
 	"github.com/Masterminds/sprig"
 	"github.com/gorilla/csrf"
 	"github.com/rs/zerolog/log"
@@ -9,18 +10,34 @@ import (
 	"net/http"
 )
 
+const mainLayout = "layouts/main"
+const htmxLayout = "layouts/htmx"
+
 type Renderer struct {
-	instance   *render.Render
-	FileSystem render.FileSystem
+	instance     *render.Render
+	FileSystem   render.FileSystem
+	ConstantData map[string]any // data that will be available via constant. persists across renders.
+	Functions    template.FuncMap
+	Layout       string
+	HTMXLayout   string
+	Directory    string
 }
 
 func (renderer *Renderer) getInstance() *render.Render {
 	if renderer.instance == nil {
+		if renderer.Layout == "" {
+			renderer.Layout = mainLayout
+		}
+
+		if renderer.HTMXLayout == "" {
+			renderer.HTMXLayout = htmxLayout
+		}
+
 		renderer.instance = render.New(render.Options{
-			Directory:                   "templates",
-			Layout:                      "layouts/main",
+			Directory:                   renderer.Directory,
+			Layout:                      renderer.Layout,
 			Extensions:                  []string{".gohtml"},
-			IsDevelopment:               EnvVars.DevMode,
+			IsDevelopment:               internal.EnvVars.DevMode,
 			RequirePartials:             true,
 			RenderPartialsWithoutPrefix: true,
 			FileSystem:                  renderer.FileSystem,
@@ -30,7 +47,14 @@ func (renderer *Renderer) getInstance() *render.Render {
 						log.Panic().Msg("csrfToken called without request")
 						return ""
 					},
+					"const": func(key string) any {
+						if renderer.ConstantData == nil {
+							return nil
+						}
+						return renderer.ConstantData[key]
+					},
 				},
+				renderer.Functions,
 				sprig.FuncMap(),
 			},
 		})
@@ -51,7 +75,7 @@ func (renderer *Renderer) RenderHTML(r *http.Request, w http.ResponseWriter, tem
 	}
 
 	if r.Header.Get("HX-Request") == "true" {
-		htmlOpts[0].Layout = "layouts/htmx"
+		htmlOpts[0].Layout = renderer.HTMXLayout
 	}
 
 	htmlOpts = append(htmlOpts)

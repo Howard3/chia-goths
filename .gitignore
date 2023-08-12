@@ -1,4 +1,4 @@
 .env
 node_modules
-assets/css/main.css
+internal/apps/main/assets/css/main.css
 bin
