@@ -2,3 +2,4 @@
 node_modules
 internal/apps/main/assets/css/main.css
 bin
+.idea
