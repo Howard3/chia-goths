@@ -1,0 +1,29 @@
+<div class="relative flex flex-col justify-center py-4 overflow-hidden">
+    <div class="mb-3">Todos</div>
+    <div id="todos" class="w-full p-6 bg-white shadow-md lg:max-w-xl">
+        {{ range $todo := .todos }}
+            {{ template "single" $todo }}
+        {{ end }}
+    </div>
+</div>
+<div class="relative flex flex-col justify-center py-4 overflow-hidden">
+    <div class="mb-3">Create new Todo</div>
+    <div class="w-full p-6 bg-white shadow-md">
+        <form class="space-y-4"
+              hx-post="{{ const "AppPath" }}/"
+              hx-swap="beforeend"
+              hx-target="#todos"
+              hx-include="[name='gorilla.csrf.Token']"
+              _="on submit target.reset()">
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="mb-3 block">Title</span>
+                </label>
+                <input name="Title" type="text" placeholder="Take out the trash" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+            </div>
+            <div>
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
