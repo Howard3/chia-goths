@@ -38,6 +38,10 @@ func main() {
 	todosConfig := apps.NewAppConfig(c, "/apps/todos")
 	todosConfig.InitApp(&todos.App{})
 
+	c.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/apps/about", http.StatusFound)
+	})
+
 	log.Info().Str("listenAddr", internal.EnvVars.ListenAddr).Msg("starting server")
 	if err := http.ListenAndServe(internal.EnvVars.ListenAddr, csrf.Protect(internal.EnvVars.CSRFKey)(c)); err != nil {
 		panic(fmt.Errorf("failed to listen and serve: %w", err))

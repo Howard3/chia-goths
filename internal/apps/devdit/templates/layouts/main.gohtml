@@ -8,30 +8,18 @@
     <link href="{{const "AppPath"}}/assets/css/main.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans">
+<body class="bg-gray-900 text-gray-300 h-screen antialiased leading-none font-sans pb-16">
 
-<header class="bg-blue-600 py-6">
-    <div class="container mx-auto flex justify-between items-center px-4">
-        <div class="text-white text-2xl font-bold">
-            Devdit
-        </div>
-        <nav class="space-x-4 text-white text-bold">
-            <a href="#" class="hover:text-gray-200">Home</a>
-            <a href="#" class="hover:text-gray-200">About</a>
-            <a href="#" class="hover:text-gray-200">Contact</a>
-        </nav>
-    </div>
-</header>
+{{partial "layouts/header"}}
 
-<main class="container mx-auto max-w-xl pt-8 pb-16">
+<main class="container mx-auto max-w-xl pt-8">
     {{ yield }}
 </main>
 
-<footer class="bg-blue-600 py-4 mt-16">
-    <div class="container mx-auto text-center text-white">
+<footer class="bg-gray-800 py-4 fixed bottom-0 w-full border-t border-gray-700">
+    <div class="container mx-auto text-center text-gray-300">
         "{{ randomFooterMessage }}"
     </div>
-
 </footer>
 
 </body>
