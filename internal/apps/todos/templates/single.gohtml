@@ -1,0 +1,13 @@
+<div class="form-control mb-3">
+    <label class="cursor-pointer">
+        <input type="checkbox"
+               class="checkbox"
+               {{ if .Done }}checked="checked"{{ end }}
+               hx-post="{{ const "AppPath" }}/toggle/{{ .ID }}"
+               hx-swap="outerHTML"
+               hx-target="closest div"
+               hx-include="[name='gorilla.csrf.Token']"
+        />
+        <span>{{ .Title }}</span>
+    </label>
+</div>

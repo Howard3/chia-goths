@@ -1,4 +1,5 @@
 .env
 node_modules
-internal/apps/main/assets/css/main.css
+internal/apps/*/assets/css/main.css
 bin
+.idea

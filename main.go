@@ -5,6 +5,7 @@ import (
 	"chia-goths/internal/apps"
 	"chia-goths/internal/apps/about"
 	"chia-goths/internal/apps/devdit"
+	"chia-goths/internal/apps/todos"
 	"fmt"
 	"github.com/gorilla/csrf"
 	"github.com/rs/zerolog"
@@ -33,6 +34,9 @@ func main() {
 
 	devditConfig := apps.NewAppConfig(c, "/apps/devdit")
 	devditConfig.InitApp(&devdit.App{})
+
+	todosConfig := apps.NewAppConfig(c, "/apps/todos")
+	todosConfig.InitApp(&todos.App{})
 
 	log.Info().Str("listenAddr", internal.EnvVars.ListenAddr).Msg("starting server")
 	if err := http.ListenAndServe(internal.EnvVars.ListenAddr, csrf.Protect(internal.EnvVars.CSRFKey)(c)); err != nil {
