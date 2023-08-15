@@ -12,6 +12,7 @@ var EnvVars = struct {
 	ListenAddr string
 }{}
 
+// LoadEnv will load a .env file, if present, and set defaults/enforce availability of environment variables.
 func LoadEnv() {
 	if err := godotenv.Load(); err != nil {
 		// this is only INFO because env can also be set... as env.

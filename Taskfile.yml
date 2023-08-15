@@ -2,20 +2,18 @@
   tasks:
     dev:
       deps:
-        - watch
-        - dev:server
-    dev:server:
-      env:
-        DEV_MODE: true
-      cmds:
-        - go run .
-    watch:
-      cmds:
-        - npx tailwindcss -i ./src/css/main.css -o ./assets/css/main.css --watch
+        - air
     build:
       cmds:
-        - npx tailwindcss -i ./src/css/main.css -o ./assets/css/main.css
+        - task:build:all-assets
         - go build -o ./bin/chia-goths
+    build:all-assets:
+      cmds:
+        - |
+          for script in $(jq -r '.scripts | to_entries | map(select(.key | startswith("build:"))) | .[].key' package.json); do
+            echo "Running $script..."
+            npm run $script
+          done
     deploy:flyio:
       cmds:
         - flyctl deploy
