@@ -2,12 +2,15 @@ package apps
 
 import (
 	"chia-goths/internal"
-	"github.com/Masterminds/sprig"
+
+	"github.com/Masterminds/sprig/v3"
+
+	"html/template"
+	"net/http"
+
 	"github.com/gorilla/csrf"
 	"github.com/rs/zerolog/log"
 	"github.com/unrolled/render"
-	"html/template"
-	"net/http"
 )
 
 const mainLayout = "layouts/main"

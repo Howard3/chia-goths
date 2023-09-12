@@ -4,3 +4,4 @@ internal/apps/*/assets/css/main.css
 bin
 .idea
 tmp
+*.sqlite*
