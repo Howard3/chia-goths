@@ -81,6 +81,8 @@ func (renderer *Renderer) RenderHTML(r *http.Request, w http.ResponseWriter, tem
 		htmlOpts[0].Layout = renderer.HTMXLayout
 	}
 
+	w.Header().Add("Vary", "HX-Request")
+
 	htmlOpts = append(htmlOpts)
 
 	return renderer.getInstance().HTML(w, http.StatusOK, templateName, data, htmlOpts...)
