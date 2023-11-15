@@ -9,11 +9,7 @@
         - go build -o ./bin/chia-goths
     build:all-assets:
       cmds:
-        - |
-          for script in $(jq -r '.scripts | to_entries | map(select(.key | startswith("build:"))) | .[].key' package.json); do
-            echo "Running $script..."
-            npm run $script
-          done
+        - ls -l internal/apps | grep '^d' | awk '{print $9}' | parallel --colsep ' ' APP={1} npm run build
     deploy:flyio:
       cmds:
         - flyctl deploy
