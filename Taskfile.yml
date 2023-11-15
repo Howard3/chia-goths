@@ -5,7 +5,7 @@
         - air
     build:
       cmds:
-        - task:build:all-assets
+        - task build:all-assets
         - go build -o ./bin/chia-goths
     build:all-assets:
       cmds:
