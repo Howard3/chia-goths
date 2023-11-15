@@ -1,13 +1,7 @@
 {
   "scripts": {
     "build": "cd ./internal/apps/$APP && tailwindcss build -i ./src/main.css -o ./assets/css/main.css -c ./tailwind.config.js",
-    "watch": "cd ./internal/apps/$APP && tailwindcss build -i ./src/main.css -o ./assets/css/main.css --watch -c ./tailwind.config.js",
-    "build:about": "APP=about npm run build",
-    "watch:about": "APP=about npm run watch",
-    "build:devdit": "APP=devdit npm run build",
-    "watch:devdit": "APP=devdit npm run watch",
-    "build:todos": "APP=todos npm run build",
-    "watch:todos": "APP=todos npm run watch"
+    "watch": "cd ./internal/apps/$APP && tailwindcss build -i ./src/main.css -o ./assets/css/main.css --watch -c ./tailwind.config.js"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
